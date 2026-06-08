@@ -76,7 +76,7 @@ if(calcBtn) {
         
         if(promoVal && validPromoCodes[promoVal]) {
             currentDiscount = validPromoCodes[promoVal];
-            showToast(lang === 'uk' ? `Промокод активовано! Знижка: ${currentDiscount * 100}%` : `Promo code activated! Discount: ${currentDiscount * 100}%`);
+            showToast(lang === 'uk' ? `Промокод активовано! Знижка ${currentDiscount * 100}% застосовано до всіх номерів.` : `Promo code activated! ${currentDiscount * 100}% discount applied to all rooms.`);
         } else if (promoVal) {
             showToast(lang === 'uk' ? 'Невірний або прострочений промокод.' : 'Invalid or expired promo code.');
             currentDiscount = 0;
@@ -191,35 +191,19 @@ document.querySelectorAll('.room-card').forEach(card => {
         let summaryHTML = `
             <div class="booking-summary-box">
                 <p style="margin-bottom: 15px; font-size: 16px;"><strong><span data-i18n="sum_room">${translations[lang].sum_room}</span>:</strong> ${title}</p>
-                <div class="b-summary-row">
-                    <span><span data-i18n="sum_dates">${translations[lang].sum_dates}</span>:</span> <span>${bookingInfo.checkin} — ${bookingInfo.checkout}</span>
-                </div>
-                <div class="b-summary-row">
-                    <span><span data-i18n="sum_price_night">${translations[lang].sum_price_night}</span>:</span> <span>${room.price.toLocaleString()} ₴</span>
-                </div>
-                <div class="b-summary-row">
-                    <span><span data-i18n="sum_nights">${translations[lang].sum_nights}</span>:</span> <span>${nights}</span>
-                </div>
+                <div class="b-summary-row"><span><span data-i18n="sum_dates">${translations[lang].sum_dates}</span>:</span> <span>${bookingInfo.checkin} — ${bookingInfo.checkout}</span></div>
+                <div class="b-summary-row"><span><span data-i18n="sum_price_night">${translations[lang].sum_price_night}</span>:</span> <span>${room.price.toLocaleString()} ₴</span></div>
+                <div class="b-summary-row"><span><span data-i18n="sum_nights">${translations[lang].sum_nights}</span>:</span> <span>${nights}</span></div>
         `;
 
         if (currentDiscount > 0) {
             summaryHTML += `
-                <div class="b-summary-row" style="margin-top: 10px;">
-                    <span><span data-i18n="sum_base">${translations[lang].sum_base}</span>:</span> <span>${baseTotal.toLocaleString()} ₴</span>
-                </div>
-                <div class="b-summary-row" style="color: #e74c3c; font-weight: bold;">
-                    <span><span data-i18n="sum_discount">${translations[lang].sum_discount}</span> (${currentDiscount*100}%):</span> <span>-${discountAmount.toLocaleString()} ₴</span>
-                </div>
-                <div class="b-summary-total">
-                    <span><span data-i18n="sum_total">${translations[lang].sum_total}</span>:</span> <span style="color: #e74c3c;">${finalTotal.toLocaleString()} ₴</span>
-                </div>
+                <div class="b-summary-row" style="margin-top: 10px;"><span><span data-i18n="sum_base">${translations[lang].sum_base}</span>:</span> <span>${baseTotal.toLocaleString()} ₴</span></div>
+                <div class="b-summary-row" style="color: #e74c3c; font-weight: bold;"><span><span data-i18n="sum_discount">${translations[lang].sum_discount}</span> (${currentDiscount*100}%):</span> <span>-${discountAmount.toLocaleString()} ₴</span></div>
+                <div class="b-summary-total"><span><span data-i18n="sum_total">${translations[lang].sum_total}</span>:</span> <span style="color: #e74c3c;">${finalTotal.toLocaleString()} ₴</span></div>
             `;
         } else {
-            summaryHTML += `
-                <div class="b-summary-total">
-                    <span><span data-i18n="sum_total">${translations[lang].sum_total}</span>:</span> <span style="color: #c5a059;">${baseTotal.toLocaleString()} ₴</span>
-                </div>
-            `;
+            summaryHTML += `<div class="b-summary-total"><span><span data-i18n="sum_total">${translations[lang].sum_total}</span>:</span> <span style="color: #c5a059;">${baseTotal.toLocaleString()} ₴</span></div>`;
         }
         summaryHTML += `</div>`;
 
@@ -392,12 +376,19 @@ document.querySelectorAll('.dash-tab').forEach(tab => {
     };
 });
 
-// --- ЗБЕРЕЖЕННЯ БРОНЮВАННЯ ---
+// --- ФОРМА БРОНЮВАННЯ (З ВАЛІДАЦІЄЮ ТЕЛЕФОНУ) ---
 const contactForm = document.getElementById('contact-form');
 if(contactForm) {
     contactForm.onsubmit = (e) => {
         e.preventDefault();
         const lang = localStorage.getItem('hotelLang') || 'uk';
+        const phoneVal = document.getElementById('u-phone').value.trim();
+        
+        if(phoneVal === "+380" || phoneVal.length < 13) {
+            showToast(lang === 'uk' ? "Будь ласка, введіть повний номер телефону!" : "Please enter a valid phone number!");
+            return;
+        }
+
         const msg = lang === 'uk' ? "Бронювання успішно створено!" : "Booking successfully created!";
         showToast(msg);
         
@@ -418,11 +409,19 @@ if(contactForm) {
     };
 }
 
+// --- ФОРМА ЗВОРОТНОГО ЗВ'ЯЗКУ (З ВАЛІДАЦІЄЮ ТЕЛЕФОНУ) ---
 const feedbackForm = document.getElementById('feedback-form');
 if(feedbackForm) {
     feedbackForm.onsubmit = (e) => {
         e.preventDefault();
         const lang = localStorage.getItem('hotelLang') || 'uk';
+        const phoneVal = document.getElementById('f-phone').value.trim();
+        
+        if(phoneVal === "+380" || phoneVal.length < 13) {
+            showToast(lang === 'uk' ? "Будь ласка, введіть повний номер телефону!" : "Please enter a valid phone number!");
+            return;
+        }
+
         const msg = lang === 'uk' ? "Дякуємо! Ваш запит надіслано." : "Thank you! Your request has been sent.";
         showToast(msg);
         feedbackForm.reset();
@@ -577,14 +576,17 @@ function changeLanguage(lang) {
             }
         }
     });
+
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
         if (translations[lang][key]) el.placeholder = translations[lang][key];
     });
+
     const notesTextarea = document.getElementById('u-notes');
     if (notesTextarea && translations[lang]['form_notes_placeholder']) {
         notesTextarea.placeholder = translations[lang]['form_notes_placeholder'];
     }
+
     if (btnUk && btnEn) {
         if (lang === 'en') { btnEn.classList.add('active'); btnUk.classList.remove('active'); }
         else { btnUk.classList.add('active'); btnEn.classList.remove('active'); }

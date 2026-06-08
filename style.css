@@ -1,6 +1,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 html, body { overflow-x: hidden; } 
 body { font-family: 'Montserrat', sans-serif; color: #1a1a1a; background: #fff; scroll-behavior: smooth; line-height: 1.6; }
+
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 .section { padding: 100px 0; }
 .bg-light { background-color: #f8f9fa; }
@@ -87,11 +89,13 @@ header.scrolled { box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 15px 0; }
 .room-card:hover, .review-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
 .room-img { height: 250px; background-size: cover; background-position: center; position: relative; cursor: pointer; }
 
+/* Кнопки керування каруселями */
 .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: #fff; border: 1px solid #eee; border-radius: 50%; color: #c5a059; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; z-index: 10; }
 .carousel-btn:hover { background: #c5a059; color: #fff; border-color: #c5a059; }
 .prev-btn { left: 5px; } 
 .next-btn { right: 5px; } 
 
+/* Бейджі статусу та стрічка знижки */
 .badge { position: absolute; top: 15px; right: 15px; background: #c5a059; color: #fff; padding: 6px 15px; font-size: 12px; font-weight: 700; text-transform: uppercase; border-radius: 6px; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 .badge.premium { background: #111; }
 .discount-ribbon { position: absolute; top: 15px; left: 0; background: #e74c3c; color: #fff; padding: 6px 15px; font-size: 14px; font-weight: 700; border-radius: 0 6px 6px 0; z-index: 10; box-shadow: 2px 2px 10px rgba(231, 76, 60, 0.4); animation: popIn 0.4s ease-out; }
@@ -106,7 +110,7 @@ header.scrolled { box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 15px 0; }
 .price { font-weight: 700; font-size: 18px; color: #111; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
 .price span { font-size: 12px; color: #999; font-weight: 400; }
 
-/* Services */
+/* ОНОВЛЕНІ ПОСЛУГИ */
 .services-premium-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
 .srv-card { height: 350px; border-radius: 12px; background-size: cover; background-position: center; position: relative; overflow: hidden; color: #fff; transition: transform 0.4s, box-shadow 0.4s; }
 .srv-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 100%); transition: background 0.4s; }
