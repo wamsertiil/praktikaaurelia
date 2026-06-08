@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Про нас | Hotel Aurelia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .info-page { padding-top: 150px; padding-bottom: 100px; }
+        .info-block { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 50px; scroll-margin-top: 120px; }
+        .info-block h2 { color: #c5a059; margin-bottom: 25px; font-size: 28px; text-transform: uppercase; border-bottom: 2px solid #f1f1f1; padding-bottom: 10px; }
+        .info-block h3 { margin: 20px 0 10px 0; font-size: 18px; color: #111; }
+        .info-block ul { margin-left: 20px; margin-bottom: 15px; color: #555; }
+        .info-block li { margin-bottom: 8px; }
+        .back-link { display: inline-block; margin-bottom: 30px; color: #111; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 14px; transition: color 0.3s; }
+        .back-link i { margin-right: 8px; color: #c5a059; }
+        .back-link:hover { color: #c5a059; }
+        @media (max-width: 768px) { .info-page { padding-top: 100px; } .info-block { padding: 25px; } .info-block h2 { font-size: 22px; } }
+    </style>
+</head>
+<body class="bg-light">
+
+    <header class="header" id="header" style="box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 15px 0;">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">Aurelia<span>Одеса</span></a>
+            </div>
+            
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <span id="lang-uk" class="active">UK</span> | <span id="lang-en">EN</span>
+                </div>
+            </div>
+            <a href="index.html" class="btn-outline" style="padding: 10px 20px; font-size: 12px; margin-left: 15px;" data-i18n="info_home">На головну</a>
+        </div>
+    </header>
+
+    <main class="container info-page">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> <span data-i18n="info_back">Повернутися до готелю</span></a>
+
+        <div class="info-block">
+            <h2 data-i18n="about_page_h2_1">Історія Aurelia</h2>
+            <p style="color:#555; margin-bottom: 15px;" data-i18n="about_page_p_1">Готель Aurelia відчинив свої двері у 2022 році. З самого початку нашою метою було створити місце, де кожен гість зможе відчути справжню Одеську гостинність у поєднанні з найвищими європейскими стандартами сервісу.</p>
+            
+            <h2 data-i18n="about_page_h2_2" style="margin-top: 40px;">Наша філософія</h2>
+            <p style="color:#555; margin-bottom: 15px;" data-i18n="about_page_p_2">Ми віримо, що ідеальний відпочинок складається з дрібниць. Саме тому ми приділяємо максимум уваги кожній деталі: від ідеально чистої білизни та авторського меню в ресторані до швидкого вирішення будь-яких запитів наших гостей.</p>
+            
+            <h2 data-i18n="about_page_h2_3" style="margin-top: 40px;">Нагороди та досягнення</h2>
+            <ul>
+                <li data-i18n="about_page_li_1">Кращий морський готель Одеси 2024</li>
+                <li data-i18n="about_page_li_2">Відзнака Travellers' Choice 2025</li>
+                <li data-i18n="about_page_li_3">Еко-сертифікат Green Key за екологічні ініціативи</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer id="contacts" class="footer" style="padding: 40px 0 20px 0;">
+        <div class="footer-bottom" style="border-top: none;">
+            <p>© 2026 Готель Aurelia Одеса. Всі права захищені.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

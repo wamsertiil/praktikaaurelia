@@ -1,0 +1,220 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { overflow-x: hidden; } 
+body { font-family: 'Montserrat', sans-serif; color: #1a1a1a; background: #fff; scroll-behavior: smooth; line-height: 1.6; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.section { padding: 100px 0; }
+.bg-light { background-color: #f8f9fa; }
+.section-title { text-align: center; text-transform: uppercase; margin-bottom: 50px; letter-spacing: 2px; font-size: 28px; }
+.section-title.left-align { text-align: left; }
+
+.btn-main, .btn-outline { padding: 15px 30px; cursor: pointer; font-weight: 700; text-transform: uppercase; transition: all 0.3s ease; border-radius: 4px; font-family: inherit; font-size: 13px; text-align: center; outline: none; }
+.btn-main { background: #c5a059; color: #fff; border: none; }
+.btn-main:hover { background: #111; }
+.btn-outline { background: transparent; color: #111; border: 1px solid #111; }
+.btn-outline:hover { background: #111; color: #fff; }
+.btn-full { width: 100%; }
+
+/* Header */
+header { background: #fff; padding: 20px 0; position: sticky; top: 0; z-index: 1000; transition: all 0.3s ease; }
+header.scrolled { box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 15px 0; }
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+.logo a { font-weight: 700; font-size: 24px; color: #111; letter-spacing: 2px; text-decoration: none; }
+.logo span { color: #c5a059; font-weight: 300; }
+.desktop-nav ul { display: flex; list-style: none; gap: 30px; }
+.desktop-nav a { text-decoration: none; color: #333; font-size: 13px; text-transform: uppercase; font-weight: 600; transition: color 0.3s; }
+.desktop-nav a:hover { color: #c5a059; }
+
+.header-actions { display: flex; align-items: center; gap: 15px; }
+.lang-switch { font-size: 13px; font-weight: 600; color: #999; }
+.lang-switch span { cursor: pointer; transition: color 0.3s; padding: 5px; }
+.lang-switch span.active, .lang-switch span:hover { color: #c5a059; }
+
+/* Mobile Menu */
+.burger-menu { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: #111; }
+.mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(255, 255, 255, 0.98); z-index: 2000; flex-direction: column; justify-content: center; align-items: center; transform: translateX(100%); transition: transform 0.3s ease; }
+.mobile-menu.active { transform: translateX(0); }
+.close-menu { position: absolute; top: 30px; right: 30px; background: none; border: none; font-size: 30px; cursor: pointer; color: #111; }
+.mobile-nav-links { list-style: none; text-align: center; }
+.mobile-nav-links li { margin: 20px 0; }
+.mobile-nav-links a { text-decoration: none; color: #111; font-size: 24px; font-weight: 600; text-transform: uppercase; }
+
+/* Hero Slider */
+.hero { height: 90vh; position: relative; display: flex; align-items: center; justify-content: center; color: #fff; background-color: #2a2a2a; background-image: url('https://kirillovka.ks.ua/wp-content/uploads/2018/11/odessa-13-aleksey-chumak.jpg'); background-size: cover; background-position: center; transition: background-image 1s ease-in-out; }
+.hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)); z-index: 1; }
+.hero-content { position: relative; z-index: 2; max-width: 1000px; text-align: center; width: 100%; padding: 0 20px; }
+.hero h1 { font-size: 52px; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.hero p { font-size: 18px; margin-bottom: 40px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+/* Booking Widget */
+.booking-widget { background: #fff; padding: 25px; border-radius: 12px; display: flex; gap: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); color: #333; flex-wrap: nowrap; align-items: flex-end; justify-content: space-between; }
+.b-input-group { display: flex; gap: 15px; flex: 1; }
+.b-input { display: flex; flex-direction: column; text-align: left; flex: 1; }
+.b-input label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+.b-input label i { color: #c5a059; margin-right: 5px; }
+.b-input input { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; outline: none; transition: border 0.3s; -webkit-appearance: none; }
+.b-input input:focus { border-color: #c5a059; }
+.promo-input { flex: 0.8; }
+
+.promo-success-popup {
+    position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+    background: #111; color: #fff; padding: 15px 30px; border-radius: 30px;
+    border: 2px solid #c5a059; box-shadow: 0 10px 30px rgba(197, 160, 89, 0.4);
+    z-index: 9999; font-weight: 600; font-size: 14px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0;
+}
+.promo-success-popup.show { top: 25px; opacity: 1; }
+.promo-popup-content { display: flex; align-items: center; gap: 12px; }
+.promo-popup-content i { color: #c5a059; font-size: 18px; }
+
+/* About */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+.about-text p { margin-bottom: 20px; color: #555; }
+.about-features { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 30px; }
+.about-features span { font-weight: 600; font-size: 14px; }
+.about-features i { color: #c5a059; margin-right: 8px; }
+.glowing-wrapper { position: relative; z-index: 1; }
+.glowing-wrapper::before { content: ""; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; background: #c5a059; filter: blur(25px); opacity: 0.4; z-index: -1; border-radius: 12px; transition: opacity 0.4s ease; }
+.glowing-wrapper:hover::before { opacity: 0.6; }
+.glowing-wrapper img { width: 100%; border-radius: 12px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+/* Filters */
+.room-filters { display: flex; justify-content: flex-end; margin-bottom: 30px; padding-right: 40px; }
+.filter-group { display: flex; align-items: center; gap: 15px; }
+.filter-group label { font-weight: 600; font-size: 14px; color: #333; }
+.filter-group select { padding: 10px 15px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; outline: none; cursor: pointer; }
+
+/* Карусель номерів та відгуків */
+.rooms-carousel-wrapper, .reviews-carousel-wrapper { position: relative; padding: 0 60px; }
+.rooms-track, .reviews-track { display: flex; gap: 30px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; padding: 10px 0; scroll-snap-type: x mandatory; }
+.rooms-track::-webkit-scrollbar, .reviews-track::-webkit-scrollbar { display: none; }
+.room-card, .review-card { background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: transform 0.4s, box-shadow 0.4s; position: relative; flex: 0 0 calc(33.333% - 20px); min-width: 320px; scroll-snap-align: start; }
+.room-card:hover, .review-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+.room-img { height: 250px; background-size: cover; background-position: center; position: relative; cursor: pointer; }
+
+/* Кнопки керування каруселями */
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: #fff; border: 1px solid #eee; border-radius: 50%; color: #c5a059; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; z-index: 10; }
+.carousel-btn:hover { background: #c5a059; color: #fff; border-color: #c5a059; }
+.prev-btn { left: 5px; }
+.next-btn { right: 5px; }
+
+/* Бейджі статусу та стрічка знижки */
+.badge { position: absolute; top: 15px; right: 15px; background: #c5a059; color: #fff; padding: 6px 15px; font-size: 12px; font-weight: 700; text-transform: uppercase; border-radius: 6px; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.badge.premium { background: #111; }
+.discount-ribbon { position: absolute; top: 15px; left: 0; background: #e74c3c; color: #fff; padding: 6px 15px; font-size: 14px; font-weight: 700; border-radius: 0 6px 6px 0; z-index: 10; box-shadow: 2px 2px 10px rgba(231, 76, 60, 0.4); animation: popIn 0.4s ease-out; }
+@keyframes popIn { 0% { transform: translateX(-10px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+
+.room-info { padding: 25px; }
+.room-info h3 { font-size: 20px; margin-bottom: 15px; }
+.room-amenities { display: flex; gap: 15px; font-size: 13px; color: #666; margin-bottom: 15px; flex-wrap: wrap; }
+.room-amenities i { color: #c5a059; }
+.room-info p { font-size: 14px; color: #555; margin-bottom: 20px; }
+.room-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 20px; }
+.price { font-weight: 700; font-size: 18px; color: #111; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+.price span { font-size: 12px; color: #999; font-weight: 400; }
+
+/* ОНОВЛЕНІ ПОСЛУГИ (ПРЕМІУМ ДИЗАЙН, ЖОРСТКО 4 КОЛОНКИ) */
+.services-premium-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+.srv-card { height: 350px; border-radius: 12px; background-size: cover; background-position: center; position: relative; overflow: hidden; color: #fff; transition: transform 0.4s, box-shadow 0.4s; }
+.srv-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 100%); transition: background 0.4s; }
+.srv-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+.srv-card:hover::before { background: linear-gradient(to top, rgba(197,160,89,0.95) 0%, rgba(0,0,0,0.3) 100%); }
+.srv-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; z-index: 2; transition: transform 0.4s; }
+.srv-content i { font-size: 30px; color: #c5a059; margin-bottom: 15px; display: block; transition: color 0.4s;}
+.srv-card:hover .srv-content i { color: #fff; }
+.srv-content h3 { font-size: 20px; margin-bottom: 10px; }
+.srv-content p { font-size: 13px; opacity: 0.9; }
+
+/* Offers & Feedback */
+.offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.offer-card { background: #f8f9fa; padding: 40px; border-radius: 12px; text-align: center; border-bottom: 3px solid #c5a059; box-shadow: 0 5px 20px rgba(0,0,0,0.03); }
+.offer-card h3 { margin-bottom: 15px; }
+.offer-card p { margin-bottom: 25px; color: #555; }
+
+.feedback-box { background: #f8f9fa; padding: 50px; border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+.feedback-text h2 { margin-bottom: 15px; }
+.feedback-form { display: flex; flex-direction: column; gap: 15px; }
+.feedback-form input, .feedback-form textarea { padding: 15px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; outline: none; }
+.feedback-form input:focus, .feedback-form textarea:focus { border-color: #c5a059; }
+
+/* Gallery */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.gallery-img-wrap { overflow: hidden; border-radius: 12px; border: 2px solid transparent; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.4s ease; position: relative; }
+.gallery-img-wrap:hover { border-color: #c5a059; box-shadow: 0 10px 30px rgba(197, 160, 89, 0.5); transform: translateY(-5px); }
+.gallery-img-wrap img { width: 100%; height: 250px; object-fit: cover; display: block; transition: transform 0.4s ease; cursor: pointer; }
+.gallery-img-wrap:hover img { transform: scale(1.05); }
+
+/* ОНОВЛЕНІ ВІДГУКИ (Більше простору) */
+.review-card { padding: 45px 35px; } /* Збільшено внутрішні відступи */
+.rev-header { display: flex; align-items: center; margin-bottom: 25px; position: relative; }
+.rev-avatar { width: 50px; height: 50px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; margin-right: 15px; }
+.rev-info h4 { font-size: 17px; margin-bottom: 8px; }
+.stars { color: #fbbc04; font-size: 15px; }
+.google-icon { position: absolute; right: 0; top: 0; font-size: 26px; color: #4285F4; opacity: 0.8; }
+.review-card p { font-size: 15px; color: #555; font-style: italic; line-height: 1.8; } /* Збільшено розмір шрифту та міжрядковий інтервал */
+
+/* Footer */
+footer { background: #111; color: #fff; padding: 80px 0 20px 0; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px; }
+.footer-logo { font-weight: 700; font-size: 24px; letter-spacing: 2px; margin-bottom: 20px; }
+.footer-logo span { color: #c5a059; }
+.footer-col p { color: #aaa; font-size: 14px; margin-bottom: 20px; }
+.social-links a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #222; color: #fff; border-radius: 50%; margin-right: 10px; text-decoration: none; transition: background 0.3s; }
+.social-links a:hover { background: #c5a059; }
+.footer-col h4 { margin-bottom: 20px; font-size: 16px; text-transform: uppercase; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 15px; color: #aaa; font-size: 14px; }
+.footer-col ul li i { margin-right: 10px; color: #c5a059; }
+.footer-col ul a { color: #aaa; text-decoration: none; transition: color 0.3s; }
+.footer-col ul a:hover { color: #c5a059; }
+.footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #333; color: #666; font-size: 13px; }
+
+/* Modals */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
+.modal-body { background: #fff; width: 100%; max-width: 600px; padding: 40px; position: relative; border-radius: 12px; max-height: 90vh; overflow-y: auto; }
+.close-modal { position: absolute; right: 25px; top: 20px; font-size: 30px; cursor: pointer; color: #999; transition: color 0.3s; z-index: 2001; }
+.close-modal:hover { color: #111; }
+.modal-header h2 { margin-bottom: 5px; }
+.modal-header p { color: #666; font-size: 14px; margin-bottom: 20px; }
+.checkout-form { margin-top: 20px; }
+.form-row { display: flex; gap: 15px; }
+.f-group { display: flex; flex-direction: column; margin-bottom: 20px; flex: 1; }
+.f-group label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #555; }
+.f-group input, .f-group textarea { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; outline: none; -webkit-appearance: none; }
+.f-group input:focus, .f-group textarea:focus { border-color: #c5a059; }
+.checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 25px; }
+.checkbox-group label { font-size: 12px; color: #666; }
+.checkbox-group a { color: #c5a059; text-decoration: none; }
+.booking-summary-box { background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #c5a059; margin-bottom: 20px; }
+.b-summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; color: #555; font-size: 14px;}
+.b-summary-total { display: flex; justify-content: space-between; font-size: 1.2rem; color: #333; font-weight: bold; margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;}
+
+/* Mobile Optimization */
+@media (max-width: 992px) { 
+    .booking-widget { flex-direction: column; align-items: stretch; } 
+    .b-input-group { flex-direction: column; } 
+    .btn-main { width: 100%; margin-top: 10px; }
+    .about-grid, .feedback-box { grid-template-columns: 1fr; }
+    .room-card, .review-card { flex: 0 0 calc(50% - 15px); }
+    .services-premium-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) { 
+    .desktop-nav, #btn-login { display: none; } 
+    .burger-menu { display: block; } 
+    .hero h1 { font-size: 32px; } 
+    .hero p { font-size: 16px; } 
+    .section { padding: 60px 0; }
+    .form-row { flex-direction: column; gap: 0; } 
+    .modal-body { padding: 30px 20px; margin: 15px; width: calc(100% - 30px); } 
+    .feedback-box { padding: 30px 20px; }
+    
+    .rooms-carousel-wrapper, .reviews-carousel-wrapper { padding: 0 10px; } 
+    .room-card, .review-card { flex: 0 0 100%; min-width: 100%; }
+    .carousel-btn { width: 35px; height: 35px; font-size: 14px; }
+    .prev-btn { left: 5px; }
+    .next-btn { right: 5px; }
+    
+    .room-filters { padding-right: 10px; justify-content: center; }
+    .services-premium-grid { grid-template-columns: 1fr; }
+}

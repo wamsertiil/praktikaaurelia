@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Інформація | Hotel Aurelia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .info-page { padding-top: 150px; padding-bottom: 100px; }
+        .info-block { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 50px; scroll-margin-top: 120px; }
+        .info-block h2 { color: #c5a059; margin-bottom: 25px; font-size: 28px; text-transform: uppercase; border-bottom: 2px solid #f1f1f1; padding-bottom: 10px; }
+        .info-block h3 { margin: 20px 0 10px 0; font-size: 18px; color: #111; }
+        .info-block ul { margin-left: 20px; margin-bottom: 15px; color: #555; }
+        .info-block li { margin-bottom: 8px; }
+        .back-link { display: inline-block; margin-bottom: 30px; color: #111; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 14px; transition: color 0.3s; }
+        .back-link i { margin-right: 8px; color: #c5a059; }
+        .back-link:hover { color: #c5a059; }
+        @media (max-width: 768px) { .info-page { padding-top: 100px; } .info-block { padding: 25px; } .info-block h2 { font-size: 22px; } }
+    </style>
+</head>
+<body class="bg-light">
+
+    <header class="header" id="header" style="box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 15px 0;">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">Aurelia<span>Одеса</span></a>
+            </div>
+            
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <span id="lang-uk" class="active">UK</span> | <span id="lang-en">EN</span>
+                </div>
+            </div>
+            <a href="index.html" class="btn-outline" style="padding: 10px 20px; font-size: 12px; margin-left: 15px;" data-i18n="info_home">На головну</a>
+        </div>
+    </header>
+
+    <main class="container info-page">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> <span data-i18n="info_back">Повернутися до готелю</span></a>
+
+        <div id="rules" class="info-block">
+            <h2 data-i18n="rules_h2">Правила проживання</h2>
+            <h3 data-i18n="rules_h3_1">1. Час заїзду та виїзду</h3>
+            <ul>
+                <li data-i18n="rules_li_1_1"><strong>Час заїзду (Check-in):</strong> з 14:00.</li>
+                <li data-i18n="rules_li_1_2"><strong>Час виїзду (Check-out):</strong> до 12:00.</li>
+                <li data-i18n="rules_li_1_3">Ранній заїзд та пізній виїзд надаються за наявності вільних номерів та оплачуються додатково.</li>
+            </ul>
+            <h3 data-i18n="rules_h3_2">2. Проживання з дітьми</h3>
+            <ul>
+                <li data-i18n="rules_li_2_1">Діти до 6 років розміщуються безкоштовно без надання додаткового місця.</li>
+                <li data-i18n="rules_li_2_2">За запитом безкоштовно надається дитяче ліжечко-манеж.</li>
+            </ul>
+            <h3 data-i18n="rules_h3_3">3. Розміщення з тваринами (Pet-friendly)</h3>
+            <ul>
+                <li data-i18n="rules_li_3_1">Готель приймає гостей з собаками вагою до 5 кг.</li>
+                <li data-i18n="rules_li_3_2">Вартість розміщення улюбленця — 500 ₴ / доба.</li>
+            </ul>
+            <h3 data-i18n="rules_h3_4">4. Загальні правила</h3>
+            <ul>
+                <li data-i18n="rules_li_4_1">У номерах та на балконах суворо заборонено палити (штраф 2000 ₴).</li>
+                <li data-i18n="rules_li_4_2">Режим тиші діє з 23:00 до 07:00.</li>
+            </ul>
+        </div>
+
+        <div id="privacy" class="info-block">
+            <h2 data-i18n="priv_h2">Політика конфіденційності</h2>
+            <p style="color:#555; margin-bottom: 15px;" data-i18n="priv_p1">Готель Aurelia серйозно ставиться до безпеки персональних даних наших гостей. Збір та обробка інформації здійснюється відповідно до законодавства.</p>
+            <h3 data-i18n="priv_h3_1">Які дані ми збираємо:</h3>
+            <ul>
+                <li data-i18n="priv_li_1_1">Ім'я, прізвище та контактний номер телефону.</li>
+                <li data-i18n="priv_li_1_2">Адреса електронної пошти для відправки підтвердження бронювання.</li>
+                <li data-i18n="priv_li_1_3">Дати перебування та особливі побажання.</li>
+            </ul>
+            <h3 data-i18n="priv_h3_2">Як ми використовуємо ваші дані:</h3>
+            <ul>
+                <li data-i18n="priv_li_2_1">Для оформлення бронювання та надання готельних послуг.</li>
+                <li data-i18n="priv_li_2_2">Для зв'язку з вами у разі змін у вашому бронюванні.</li>
+                <li data-i18n="priv_li_2_3">Ваші дані <strong>ніколи</strong> не передаються третім особам у маркетингових цілях.</li>
+            </ul>
+        </div>
+
+        <div id="transfer" class="info-block">
+            <h2 data-i18n="trans_h2">Послуги Трансферу</h2>
+            <p style="color:#555; margin-bottom: 15px;" data-i18n="trans_p1">Ми дбаємо про ваш комфорт ще до прибуття в готель. Готель Aurelia пропонує послуги преміального трансферу на автомобілях бізнес-класу.</p>
+            <h3 data-i18n="trans_h3_1">Напрямки та вартість:</h3>
+            <ul>
+                <li data-i18n="trans_li_1_1"><strong>Залізничний вокзал — Готель:</strong> 450 ₴. Час у дорозі ~15 хв.</li>
+                <li data-i18n="trans_li_1_2"><strong>Автовокзал — Готель:</strong> 550 ₴. Час у дорозі ~20 хв.</li>
+                <li data-i18n="trans_li_1_3"><strong>Міжміський трансфер:</strong> за індивідуальним прорахунком.</li>
+            </ul>
+            <h3 data-i18n="trans_h3_2">Як замовити:</h3>
+            <p style="color:#555;" data-i18n="trans_p2">Трансфер необхідно замовляти не пізніше ніж за 24 години до прибуття. Будь ласка, вкажіть це в полі "Особливі побажання" при бронюванні номера або зателефонуйте нашому консьєржу.</p>
+        </div>
+    </main>
+
+    <footer id="contacts" class="footer" style="padding: 40px 0 20px 0;">
+        <div class="footer-bottom" style="border-top: none;">
+            <p>© 2026 Готель Aurelia Одеса. Всі права захищені.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
