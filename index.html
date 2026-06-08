@@ -14,9 +14,7 @@
 
     <header class="header" id="header">
         <div class="container nav-container">
-            <div class="logo">
-                <a href="#hero">Aurelia<span>Одеса</span></a>
-            </div>
+            <div class="logo"><a href="#hero">Aurelia<span>Одеса</span></a></div>
             <nav class="desktop-nav">
                 <ul class="nav-links">
                     <li><a href="#about" data-i18n="nav_about">Про готель</a></li>
@@ -29,14 +27,14 @@
                 </ul>
             </nav>
             <div class="header-actions">
-                <div class="lang-switch">
-                    <span id="lang-uk" class="active">UK</span> | <span id="lang-en">EN</span>
-                </div>
+                <div class="lang-switch"><span id="lang-uk" class="active">UK</span> | <span id="lang-en">EN</span></div>
                 <button id="btn-login" class="btn-outline" style="padding: 8px 15px; margin-left: 15px;" data-i18n="nav_login">Увійти</button>
+                <div class="user-profile-menu" style="display: none; margin-left: 15px;">
+                    <button class="btn-main btn-dashboard" style="padding: 8px 15px;"><i class="fas fa-user"></i> <span data-i18n="nav_profile">Кабінет</span></button>
+                </div>
                 <button class="burger-menu" id="burger-btn" aria-label="Відкрити меню"><i class="fas fa-bars"></i></button>
             </div>
         </div>
-        
         <div class="mobile-menu" id="mobile-menu">
             <button class="close-menu" id="close-menu-btn"><i class="fas fa-times"></i></button>
             <ul class="mobile-nav-links">
@@ -48,6 +46,7 @@
                 <li><a href="#reviews" data-i18n="nav_reviews">Відгуки</a></li>
                 <li><a href="#contacts" data-i18n="nav_contacts">Контакти</a></li>
                 <li><a href="#" id="mobile-login" data-i18n="nav_login">Увійти</a></li>
+                <li class="user-profile-menu" style="display: none;"><a href="#" class="btn-dashboard" data-i18n="nav_profile">Кабінет</a></li>
             </ul>
         </div>
     </header>
@@ -57,7 +56,6 @@
         <div class="hero-content">
             <h1 data-i18n="hero_title">Берег моря. Затишок. AURELIA.</h1>
             <p data-i18n="hero_subtitle">Ваш ідеальний відпочинок у самому серці Одеси</p>
-            
             <div class="booking-widget">
                 <div class="b-input-group">
                     <div class="b-input"><label><i class="far fa-calendar-alt"></i> <span data-i18n="book_checkin">Заїзд</span></label><input type="date" id="checkin" required></div>
@@ -249,7 +247,6 @@
         </div>
     </section>
 
-    <!-- ПОСЛУГИ -->
     <section id="services" class="section bg-light">
         <div class="container">
             <h2 class="section-title" data-i18n="nav_services">Сервіс та Інфраструктура</h2>
@@ -262,7 +259,6 @@
                         <p data-i18n="srv_rest_desc">Сніданки "шведський стіл" та авторська морська кухня від шеф-кухаря.</p>
                     </div>
                 </div>
-                <!-- Замінено фото басейну на нове за запитом користувача -->
                 <div class="srv-card" style="background-image: url('https://lviv.travel/image/news/db/cf/dbcfa5fd167aaadc64e813368e3c4a709a4908df_1673433477.jpg?crop=1338%2C2200%2C560%2C0');">
                     <div class="srv-overlay"></div>
                     <div class="srv-content">
@@ -435,9 +431,48 @@
     </footer>
 
     <!-- Модальні вікна -->
-    <div id="modal-auth" class="modal"><div class="modal-body" style="max-width: 400px; text-align: center;"><span class="close-modal" id="close-auth">×</span><h2 style="margin-bottom: 20px; color: #111;" data-i18n="auth_title">Авторизація</h2><form id="auth-form" class="checkout-form" style="text-align: left;"><div class="f-group"><label>Email</label><input type="email" required placeholder="example@mail.com"></div><div class="f-group"><label data-i18n="auth_pass">Пароль</label><input type="password" required placeholder="••••••••"></div><button type="submit" class="btn-main btn-full" data-i18n="nav_login">Увійти</button></form></div></div>
+    <div id="modal-auth" class="modal">
+        <div class="modal-body" style="max-width: 400px; text-align: center;">
+            <span class="close-modal" id="close-auth">×</span>
+            <h2 style="margin-bottom: 20px; color: #111;" data-i18n="auth_title">Авторизація</h2>
+            <form id="auth-form" class="checkout-form" style="text-align: left;">
+                <div class="f-group"><label>Email</label><input type="email" required placeholder="example@mail.com"></div>
+                <div class="f-group"><label data-i18n="auth_pass">Пароль</label><input type="password" required placeholder="••••••••"></div>
+                <button type="submit" class="btn-main btn-full" data-i18n="nav_login">Увійти</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="modal-dashboard" class="modal">
+        <div class="modal-body" style="max-width: 800px;">
+            <span class="close-modal" id="close-dashboard">×</span>
+            <h2 style="margin-bottom: 20px;" data-i18n="nav_profile">Кабінет</h2>
+            <div class="dashboard-tabs">
+                <button class="dash-tab active" data-tab="tab-profile" data-i18n="dash_profile">Профіль</button>
+                <button class="dash-tab" data-tab="tab-orders" data-i18n="dash_orders">Мої бронювання</button>
+                <button class="dash-tab" data-tab="tab-reviews" data-i18n="dash_reviews">Мої відгуки</button>
+            </div>
+            <div class="dashboard-content">
+                <div id="tab-profile" class="dash-pane active">
+                    <h3 style="margin-bottom: 15px;" data-i18n="dash_hello">Вітаємо в особистому кабінеті!</h3>
+                    <p style="color: #555; margin-bottom: 20px;">Email: <strong id="user-email-display"></strong></p>
+                    <button id="btn-logout" class="btn-outline" data-i18n="btn_logout">Вийти з акаунта</button>
+                </div>
+                <div id="tab-orders" class="dash-pane"><div id="orders-list"></div></div>
+                <div id="tab-reviews" class="dash-pane">
+                    <div class="review-item">
+                        <div class="stars" style="color: #fbbc04; margin-bottom: 5px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p style="color: #555; font-style: italic;" data-i18n="mock_review">"Все було чудово! Дякую за відпочинок. Обслуговування на вищому рівні."</p>
+                        <p style="font-size: 12px; color: #999; margin-top: 5px;">Aurelia Luxury & Spa - 12.05.2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-info" class="modal"><div class="modal-body"><span class="close-modal" id="close-info">×</span><div id="modal-info-content"></div></div></div>
     <div id="modal-lightbox" class="modal" style="background: rgba(0,0,0,0.9);"><span class="close-modal" id="close-lightbox" style="color: #fff; right: 20px; top: 20px; font-size: 50px;">×</span><div style="display:flex; justify-content:center; align-items:center; width:100%; height:100%; padding: 20px;"><img id="lightbox-img" src="" alt="Gallery Image" style="max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: 12px; box-shadow: 0 0 40px rgba(197, 160, 89, 0.4); border: 2px solid #c5a059;"></div></div>
+    
     <div id="modal-booking" class="modal">
         <div class="modal-body">
             <span class="close-modal" id="close-booking">×</span>

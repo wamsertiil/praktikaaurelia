@@ -20,6 +20,21 @@ const validPromoCodes = { 'summer2026': 0.10, 'odessa2026': 0.15, 'promo': 0.20 
 let currentDiscount = 0;
 let bookingInfo = { total: 0, nights: 1, roomName: "", checkin: "", checkout: "" };
 
+// --- УНІВЕРСАЛЬНА ФУНКЦІЯ ПЛАШКИ ---
+function showToast(message) {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fas fa-check-circle" style="color: #c5a059;"></i> <span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.classList.add('fade-out'); setTimeout(() => toast.remove(), 500); }, 3000);
+}
+
 const heroImages = [
     "url('https://kirillovka.ks.ua/wp-content/uploads/2018/11/odessa-13-aleksey-chumak.jpg')",
     "url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1600')",
@@ -48,30 +63,12 @@ if(checkinInput && checkoutInput) {
     });
 }
 
-function showPromoNotification(discountPercent) {
-    const lang = localStorage.getItem('hotelLang') || 'uk';
-    const msg = lang === 'uk' 
-        ? `Промокод активовано! Знижку ${discountPercent}% застосовано до всіх номерів.`
-        : `Promo code activated! ${discountPercent}% discount applied to all rooms.`;
-    
-    let popup = document.querySelector('.promo-success-popup');
-    if(!popup) {
-        popup = document.createElement('div');
-        popup.className = 'promo-success-popup';
-        popup.innerHTML = `<div class="promo-popup-content"><i class="fas fa-percentage"></i> <span id="promo-popup-text"></span></div>`;
-        document.body.appendChild(popup);
-    }
-    document.getElementById('promo-popup-text').innerText = msg;
-    popup.classList.add('show');
-    setTimeout(() => popup.classList.remove('show'), 4500);
-}
-
 const calcBtn = document.getElementById('calc-btn');
 if(calcBtn) {
     calcBtn.onclick = () => {
         const lang = localStorage.getItem('hotelLang') || 'uk';
         if(!checkinInput.value || !checkoutInput.value) {
-            alert(lang === 'uk' ? "Будь ласка, оберіть дати заїзду та виїзду." : "Please select check-in and check-out dates.");
+            showToast(lang === 'uk' ? "Будь ласка, оберіть дати заїзду та виїзду." : "Please select check-in and check-out dates.");
             return;
         }
         
@@ -79,9 +76,9 @@ if(calcBtn) {
         
         if(promoVal && validPromoCodes[promoVal]) {
             currentDiscount = validPromoCodes[promoVal];
-            showPromoNotification(currentDiscount * 100);
+            showToast(lang === 'uk' ? `Промокод активовано! Знижка: ${currentDiscount * 100}%` : `Promo code activated! Discount: ${currentDiscount * 100}%`);
         } else if (promoVal) {
-            alert(lang === 'uk' ? 'Невірний або прострочений промокод.' : 'Invalid or expired promo code.');
+            showToast(lang === 'uk' ? 'Невірний або прострочений промокод.' : 'Invalid or expired promo code.');
             currentDiscount = 0;
         } else {
             currentDiscount = 0;
@@ -179,7 +176,7 @@ document.querySelectorAll('.room-card').forEach(card => {
         else { checkoutDate = new Date(checkinDate); checkoutDate.setDate(checkoutDate.getDate() + 1); }
         checkoutDate.setHours(0,0,0,0);
         
-        if (checkoutDate <= checkinDate) return alert(lang==='uk'?"Дата виїзду має бути пізніше дати заїзду!":"Check-out date must be later than check-in!");
+        if (checkoutDate <= checkinDate) return showToast(lang==='uk'?"Дата виїзду має бути пізніше дати заїзду!":"Check-out date must be later than check-in!");
 
         let nights = Math.round((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
         if (nights <= 0) nights = 1;
@@ -189,13 +186,13 @@ document.querySelectorAll('.room-card').forEach(card => {
         const finalTotal = baseTotal - discountAmount;
         const title = translations[lang][room.title_key];
 
-        bookingInfo = { total: finalTotal, nights, roomName: title };
+        bookingInfo = { total: finalTotal, nights, roomName: title, checkin: checkinDate.toLocaleDateString('uk-UA'), checkout: checkoutDate.toLocaleDateString('uk-UA') };
 
         let summaryHTML = `
             <div class="booking-summary-box">
                 <p style="margin-bottom: 15px; font-size: 16px;"><strong><span data-i18n="sum_room">${translations[lang].sum_room}</span>:</strong> ${title}</p>
                 <div class="b-summary-row">
-                    <span><span data-i18n="sum_dates">${translations[lang].sum_dates}</span>:</span> <span>${checkinDate.toLocaleDateString('uk-UA')} — ${checkoutDate.toLocaleDateString('uk-UA')}</span>
+                    <span><span data-i18n="sum_dates">${translations[lang].sum_dates}</span>:</span> <span>${bookingInfo.checkin} — ${bookingInfo.checkout}</span>
                 </div>
                 <div class="b-summary-row">
                     <span><span data-i18n="sum_price_night">${translations[lang].sum_price_night}</span>:</span> <span>${room.price.toLocaleString()} ₴</span>
@@ -268,10 +265,12 @@ window.openOfferBooking = function(titleKey) {
     const children = childrenInput ? childrenInput.value : 0;
     const offerName = translations[lang][titleKey] || "Акція";
 
+    bookingInfo = { total: 0, nights, roomName: `Акція: ${offerName}`, checkin: checkinDate.toLocaleDateString('uk-UA'), checkout: checkoutDate.toLocaleDateString('uk-UA') };
+
     document.getElementById('booking-summary').innerHTML = `
         <div class="booking-summary-box">
             <p style="margin-bottom: 8px;"><strong><span data-i18n="offer_summary_type">${translations[lang].offer_summary_type}</span>:</strong> ${offerName}</p>
-            <p style="margin-bottom: 8px;"><strong><span data-i18n="sum_dates">${translations[lang].sum_dates}</span>:</strong> ${checkinDate.toLocaleDateString('uk-UA')} — ${checkoutDate.toLocaleDateString('uk-UA')} (${nights})</p>
+            <p style="margin-bottom: 8px;"><strong><span data-i18n="sum_dates">${translations[lang].sum_dates}</span>:</strong> ${bookingInfo.checkin} — ${bookingInfo.checkout} (${nights})</p>
             <p style="margin-bottom: 8px;"><strong><span data-i18n="sum_guests">${translations[lang].sum_guests}</span>:</strong> <span data-i18n="sum_adults">${translations[lang].sum_adults}</span>: ${adults}, <span data-i18n="sum_children">${translations[lang].sum_children}</span>: ${children}</p>
             <hr style="border: 0; border-top: 1px solid #ddd; margin: 10px 0;">
             <p style="font-size: 1rem; color: #555;" data-i18n="offer_summary_manager">${translations[lang].offer_summary_manager}</p>
@@ -296,7 +295,48 @@ if(burgerBtn && mobileMenu) {
     document.querySelectorAll('.mobile-nav-links a').forEach(a => a.onclick = closeMenu);
 }
 
+// --- СИСТЕМА АВТОРИЗАЦІЇ ТА КАБІНЕТУ ---
 const modalAuth = document.getElementById('modal-auth');
+const modalDashboard = document.getElementById('modal-dashboard');
+
+function updateAuthUI() {
+    const user = localStorage.getItem('hotelUser');
+    const loginBtns = document.querySelectorAll('#btn-login, #mobile-login');
+    const profileMenus = document.querySelectorAll('.user-profile-menu');
+    
+    if (user) {
+        loginBtns.forEach(b => b.style.display = 'none');
+        profileMenus.forEach(b => b.style.display = 'inline-block');
+    } else {
+        loginBtns.forEach(b => b.style.display = 'inline-block');
+        profileMenus.forEach(b => b.style.display = 'none');
+    }
+}
+
+function renderOrders() {
+    const ordersList = document.getElementById('orders-list');
+    if(!ordersList) return;
+    const orders = JSON.parse(localStorage.getItem('hotelOrders')) || [];
+    const lang = localStorage.getItem('hotelLang') || 'uk';
+    
+    if(orders.length === 0) {
+        ordersList.innerHTML = `<p style="color: #666;" data-i18n="dash_no_orders">${translations[lang].dash_no_orders}</p>`;
+        return;
+    }
+    
+    ordersList.innerHTML = orders.slice().reverse().map(o => `
+        <div class="order-item">
+            <h4>${o.room}</h4>
+            <p style="font-size: 14px; color: #555; margin-top: 5px;">
+                ${translations[lang].sum_dates}: <strong>${o.checkin} — ${o.checkout}</strong><br>
+                ${o.total > 0 ? `${translations[lang].sum_total}: <strong style="color: #c5a059;">${o.total.toLocaleString()} ₴</strong>` : ''}
+            </p>
+        </div>
+    `).join('');
+}
+
+updateAuthUI();
+
 const btnLogin = document.getElementById('btn-login');
 const mobileLogin = document.getElementById('mobile-login');
 if(btnLogin) btnLogin.onclick = () => modalAuth.style.display = 'flex';
@@ -306,22 +346,72 @@ const authForm = document.getElementById('auth-form');
 if(authForm) {
     authForm.onsubmit = (e) => { 
         e.preventDefault(); 
+        const email = authForm.querySelector('input[type="email"]').value;
+        localStorage.setItem('hotelUser', email);
+        updateAuthUI();
         const lang = localStorage.getItem('hotelLang') || 'uk';
-        alert(lang === 'uk' ? "Ви успішно авторизувались!" : "You have successfully logged in!"); 
+        showToast(lang === 'uk' ? "Ви успішно авторизувались!" : "You have successfully logged in!"); 
         modalAuth.style.display = 'none'; 
         authForm.reset(); 
     };
 }
 
+const btnLogout = document.getElementById('btn-logout');
+if(btnLogout) {
+    btnLogout.onclick = () => {
+        localStorage.removeItem('hotelUser');
+        updateAuthUI();
+        if(modalDashboard) modalDashboard.style.display = 'none';
+        const lang = localStorage.getItem('hotelLang') || 'uk';
+        showToast(lang === 'uk' ? "Ви вийшли з акаунта." : "You have logged out.");
+    };
+}
+
+document.querySelectorAll('.btn-dashboard').forEach(btn => {
+    btn.onclick = (e) => {
+        e.preventDefault();
+        const user = localStorage.getItem('hotelUser');
+        document.getElementById('user-email-display').innerText = user;
+        renderOrders();
+        modalDashboard.style.display = 'flex';
+        
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(mobileMenu.classList.contains('active')) {
+            mobileMenu.classList.remove('active');
+            setTimeout(() => mobileMenu.style.display = 'none', 300);
+        }
+    };
+});
+
+document.querySelectorAll('.dash-tab').forEach(tab => {
+    tab.onclick = () => {
+        document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.dash-pane').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    };
+});
+
+// --- ЗБЕРЕЖЕННЯ БРОНЮВАННЯ ---
 const contactForm = document.getElementById('contact-form');
 if(contactForm) {
     contactForm.onsubmit = (e) => {
         e.preventDefault();
         const lang = localStorage.getItem('hotelLang') || 'uk';
-        const msg = lang === 'uk' 
-            ? `Дякуємо, ${document.getElementById('u-name').value}!\nВаше бронювання успішно створено.\nМи зателефонуємо на ${document.getElementById('u-phone').value}.`
-            : `Thank you, ${document.getElementById('u-name').value}!\nYour booking was successfully created.\nWe will call you at ${document.getElementById('u-phone').value}.`;
-        alert(msg);
+        const msg = lang === 'uk' ? "Бронювання успішно створено!" : "Booking successfully created!";
+        showToast(msg);
+        
+        if(localStorage.getItem('hotelUser')) {
+            const orders = JSON.parse(localStorage.getItem('hotelOrders')) || [];
+            orders.push({
+                room: bookingInfo.roomName,
+                checkin: bookingInfo.checkin,
+                checkout: bookingInfo.checkout,
+                total: bookingInfo.total
+            });
+            localStorage.setItem('hotelOrders', JSON.stringify(orders));
+        }
+
         document.getElementById('modal-booking').style.display = 'none';
         contactForm.reset();
         document.getElementById('u-phone').value = "+380";
@@ -333,10 +423,8 @@ if(feedbackForm) {
     feedbackForm.onsubmit = (e) => {
         e.preventDefault();
         const lang = localStorage.getItem('hotelLang') || 'uk';
-        const msg = lang === 'uk'
-            ? "Дякуємо! Ваш запит надіслано. Ми скоро зв'яжемося з вами."
-            : "Thank you! Your request has been sent. We will contact you shortly.";
-        alert(msg);
+        const msg = lang === 'uk' ? "Дякуємо! Ваш запит надіслано." : "Thank you! Your request has been sent.";
+        showToast(msg);
         feedbackForm.reset();
         document.getElementById('f-phone').value = "+380";
     };
@@ -358,14 +446,14 @@ if(emailInput) {
     };
 }
 
-const modals = [ { btn: 'close-info', modal: 'modal-info' }, { btn: 'close-booking', modal: 'modal-booking' }, { btn: 'close-lightbox', modal: 'modal-lightbox' }, { btn: 'close-auth', modal: 'modal-auth' } ];
+const modals = [ { btn: 'close-info', modal: 'modal-info' }, { btn: 'close-booking', modal: 'modal-booking' }, { btn: 'close-lightbox', modal: 'modal-lightbox' }, { btn: 'close-auth', modal: 'modal-auth' }, { btn: 'close-dashboard', modal: 'modal-dashboard' } ];
 modals.forEach(m => { const btn = document.getElementById(m.btn); if(btn) btn.onclick = () => document.getElementById(m.modal).style.display = 'none'; });
 window.addEventListener('click', (e) => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; });
 
 // --- ПЕРЕКЛАДИ ---
 const translations = {
     uk: {
-        nav_about: "Про готель", nav_rooms: "Номери", nav_services: "Послуги", nav_offers: "Акції", nav_gallery: "Галерея", nav_reviews: "Відгуки", nav_contacts: "Контакти", nav_login: "Увійти",
+        nav_about: "Про готель", nav_rooms: "Номери", nav_services: "Послуги", nav_offers: "Акції", nav_gallery: "Галерея", nav_reviews: "Відгуки", nav_contacts: "Контакти", nav_login: "Увійти", nav_profile: "Кабінет",
         hero_title: "Берег моря. Затишок. AURELIA.", hero_subtitle: "Ваш ідеальний відпочинок у самому серці Одеси",
         book_checkin: "Заїзд", book_checkout: "Виїзд", book_adults: "Дорослі", book_children: "Діти", book_promo: "Промокод", book_btn: "Знайти номери",
         about_title: "Ласкаво просимо до Aurelia", btn_read_more: "Читати детальніше",
@@ -401,6 +489,7 @@ const translations = {
         modal_book_title: "Оформлення бронювання", modal_book_sub: "Заповніть дані для підтвердження",
         form_surname: "Прізвище", form_phone: "Телефон", form_notes: "Особливі побажання (необов'язково)", form_notes_placeholder: "Наприклад: дитяче ліжечко, тихий номер, високий поверх...", form_agree: "Я погоджуюсь з правилами проживання", form_submit: "Підтвердити бронювання",
         auth_title: "Авторизація", auth_pass: "Пароль",
+        dash_profile: "Профіль", dash_orders: "Мої бронювання", dash_reviews: "Мої відгуки", dash_hello: "Вітаємо в особистому кабінеті!", btn_logout: "Вийти з акаунта", dash_no_orders: "У вас поки немає бронювань.", mock_review: "Все було чудово! Дякую за відпочинок. Обслуговування на вищому рівні.",
         info_home: "На головну", info_back: "Повернутися до готелю",
         rules_h2: "Правила проживання", rules_h3_1: "1. Час заїзду та виїзду",
         rules_li_1_1: "<strong>Час заїзду (Check-in):</strong> з 14:00.", rules_li_1_2: "<strong>Час виїзду (Check-out):</strong> до 12:00.", rules_li_1_3: "Ранній заїзд та пізній виїзд надаються за наявності вільних номерів та оплачуються додатково.",
@@ -418,7 +507,7 @@ const translations = {
         about_page_h2_3: "Нагороди та досягнення", about_page_li_1: "Кращий морський готель Одеси 2024", about_page_li_2: "Відзнака Travellers' Choice 2025", about_page_li_3: "Еко-сертифікат Green Key за екологічні ініціативи"
     },
     en: {
-        nav_about: "About Us", nav_rooms: "Rooms", nav_services: "Services", nav_offers: "Offers", nav_gallery: "Gallery", nav_reviews: "Reviews", nav_contacts: "Contacts", nav_login: "Log In",
+        nav_about: "About Us", nav_rooms: "Rooms", nav_services: "Services", nav_offers: "Offers", nav_gallery: "Gallery", nav_reviews: "Reviews", nav_contacts: "Contacts", nav_login: "Log In", nav_profile: "Dashboard",
         hero_title: "Seaside. Comfort. AURELIA.", hero_subtitle: "Your perfect getaway in the heart of Odessa",
         book_checkin: "Check-in", book_checkout: "Check-out", book_adults: "Adults", book_children: "Children", book_promo: "Promo Code", book_btn: "Find Rooms",
         about_title: "Welcome to Aurelia", btn_read_more: "Read More",
@@ -454,6 +543,7 @@ const translations = {
         modal_book_title: "Booking Checkout", modal_book_sub: "Fill in the details to confirm",
         form_surname: "Surname", form_phone: "Phone", form_notes: "Special requests (optional)", form_notes_placeholder: "Example: baby cot, quiet room, high floor...", form_agree: "I agree to the accommodation rules", form_submit: "Confirm Booking",
         auth_title: "Authorization", auth_pass: "Password",
+        dash_profile: "Profile", dash_orders: "My Orders", dash_reviews: "My Reviews", dash_hello: "Welcome to your dashboard!", btn_logout: "Log Out", dash_no_orders: "You have no bookings yet.", mock_review: "Everything was great! Thank you for the stay. Top-notch service.",
         info_home: "Home", info_back: "Back to hotel",
         rules_h2: "Accommodation Rules", rules_h3_1: "1. Check-in and Check-out Time",
         rules_li_1_1: "<strong>Check-in time:</strong> from 14:00.", rules_li_1_2: "<strong>Check-out time:</strong> until 12:00.", rules_li_1_3: "Early check-in and late check-out are subject to availability and extra charge.",
@@ -487,17 +577,14 @@ function changeLanguage(lang) {
             }
         }
     });
-
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
         if (translations[lang][key]) el.placeholder = translations[lang][key];
     });
-
     const notesTextarea = document.getElementById('u-notes');
     if (notesTextarea && translations[lang]['form_notes_placeholder']) {
         notesTextarea.placeholder = translations[lang]['form_notes_placeholder'];
     }
-
     if (btnUk && btnEn) {
         if (lang === 'en') { btnEn.classList.add('active'); btnUk.classList.remove('active'); }
         else { btnUk.classList.add('active'); btnEn.classList.remove('active'); }
